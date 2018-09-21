@@ -18,6 +18,7 @@ public class Esame {
         // TODO code application logic here
         System.out.println("Sto quì a far peso, in realtà non servo");
         System.out.println("Ringrazio Ivo"); // prima di tutto l'educazione
+        System.out.println("Figurati"); // prima di tutto l'educazione
     }
     
 }
