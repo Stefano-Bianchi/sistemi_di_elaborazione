@@ -16,6 +16,7 @@ public class Esame {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        System.out.println("Sto quì a far peso, in realtà non servo");
     }
     
 }
