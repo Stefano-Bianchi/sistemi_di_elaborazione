@@ -5,20 +5,22 @@
  */
 package esame;
 
+import esame.riconoscimenti.RiconoscimentoAudio;
+import esame.server.Server;
+
 /**
  *
  * @author Stefano
  */
-public class Esame {
+public class Esame { // Questa classe lancia i tre servizi necessari per lo svolgimento dell'esame
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.println("Sto quì a far peso, in realtà non servo");
-        System.out.println("Ringrazio Ivo"); // prima di tutto l'educazione
-        System.out.println("Figurati"); // prima di tutto l'educazione
+        Server srv=new Server();
+        RiconoscimentoAudio ric=new RiconoscimentoAudio();     
     }
     
 }
