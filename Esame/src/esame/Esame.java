@@ -5,9 +5,6 @@
  */
 package esame;
 
-import esame.riconoscimenti.RiconoscimentoAudio;
-import esame.server.Server;
-
 /**
  *
  * @author Stefano
@@ -16,11 +13,10 @@ public class Esame { // Questa classe lancia i tre servizi necessari per lo svol
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.Exception
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // TODO code application logic here
-        Server srv=new Server();
-        RiconoscimentoAudio ric=new RiconoscimentoAudio();     
     }
     
 }
