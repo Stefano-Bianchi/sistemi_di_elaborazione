@@ -25,7 +25,7 @@ public class RiconoscimentoAudio {
         configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
         configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
         configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
-
+// questo è un commento di prova per Manuela
 //        LiveSpeechRecognizer recognizer = new LiveSpeechRecognizer(configuration);
         // Start recognition process pruning previously cached data.
 //        recognizer.startRecognition(true);

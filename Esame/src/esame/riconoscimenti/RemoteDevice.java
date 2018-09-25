@@ -91,7 +91,7 @@ public class RemoteDevice {
 // cartella nella quale il dispositivo appena è disponibile una comunicazione in enrtata la registra e salva
 // a questo punto identificando la presenza di un nuovo file se ne lancia la decodifica
         JSONObject obj = new JSONObject();
-        RiconoscimentoAudio ra=new RiconoscimentoAudio("/home/elsoft/test.wav"); // inserire il percorso assoluto al file di test
+        RiconoscimentoAudio ra=new RiconoscimentoAudio("C:\\Users\\Stefano\\Documents\\Test_Tesi\\LOST.WAV"); // inserire il percorso assoluto al file di test
         obj.put("deviceId", rm.getId());
         obj.put("deviceName", rm.getName());
         obj.put("devicePosition", rm.getPosition());
