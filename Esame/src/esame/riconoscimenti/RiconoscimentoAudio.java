@@ -8,13 +8,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.json.simple.JSONObject;
 
 public class RiconoscimentoAudio {       
 
     String filename;
+    String[] hotWords; 
     
     public RiconoscimentoAudio(String filename){
+        this.hotWords = new String[]{"help", "danger", "problem", "warning"};// un elenco di parole per riconoscere uno stato d'emergenza
         this.filename=filename;
     }
     
@@ -52,6 +55,12 @@ public class RiconoscimentoAudio {
         
         obj.put("filename",filename);
         obj.put("time",java.time.Instant.now().toString());
+        obj.put("warning-level","green");
+        for (String word: words){
+            if (Arrays.asList(hotWords).contains(word)) { // scorrendo tutte le parole identificate, riconosco se è una di loro è una hotWord 
+                obj.put("warning-level", "red");
+            } 
+        }
         obj.put("keywords", words);
         return obj;
     }
