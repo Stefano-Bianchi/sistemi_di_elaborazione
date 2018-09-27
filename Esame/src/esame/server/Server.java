@@ -69,8 +69,11 @@ public class Server {
         return conn;
     }
     
-    // https://stackoverflow.com/questions/33732110/file-upload-using-httphandler
-    
+    /*
+    * Classe che implementa l'handler per gestire le operazioni delle board remote
+    * Porzioni di codice prese da :
+    * https://stackoverflow.com/questions/33732110/file-upload-using-httphandler
+    */
     static class MyHandlerDevices implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
@@ -184,14 +187,16 @@ public class Server {
             else {
                 throw new SQLException("Impossibile inserire");
             }
-            
-            
-            //System.out.println("Inserisco:"+fileName+" "+warningLevel+" "+time);
+
         }
     }
     
     
-    
+    /*
+    * Classe che implementa l'handler per gestire le operazioni utente
+    * Porzioni di codice prese da :
+    * https://stackoverflow.com/questions/33732110/file-upload-using-httphandler
+    */
     static class MyHandlerUsers implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
@@ -246,6 +251,39 @@ public class Server {
                                 break;
                         }
                     }
+                    /*
+                    * dopo aver acquisito il comando da eseguire
+                    * e l'eventuale paramentro
+                    * si esegue il metodo opportuno
+                    * i metodi restituiranno sempre un JSON nel formato
+                    * {"
+                        id":id,
+                        "data":{
+                            ... i dati della decodifica
+                        }
+                    }
+                    */
+                    
+                    if (command!=null){
+                        switch(command){ 
+                            case "listNew": // chiede al db i soli contenuti con flag new a 1
+                                break;
+                            case "listAll": // chiede al db tutti i contenuti
+                                break;
+                            case "read": // chiede al db il contentuo con id=...
+                                break;
+                            case "update": // imposta lo stato di id=... a letto
+                                break;
+                            case "getFile": // chiede il file associato a id=...
+                                break;
+                            default: // restituiamo un errore
+                                break;
+                        }
+                    } else {
+                        throw new Exception("Comando non valido"); // per inviare all'altro capo delal connessione lo stato d'errore,
+                                                                   // sollevo un eccezione che verrà gestita nel catch
+                                                                   // così riutilizziamo la generazione dello stato 404 e del KO come messaggio di stato
+                    }
                     System.out.println("comando: " + command +" id: "+id);
                     t.sendResponseHeaders(200, 0);
                     os.write("OK\r\n".getBytes());
@@ -261,45 +299,23 @@ public class Server {
 
         }
 
-        private void inserisciDb(JSONObject json) throws SQLException {
-            String fileName="";
-            String warningLevel="";
-            String time="";
-            //System.out.println(json.keySet().toString());
-            if (json.containsKey("riconoscimento")) {
-                
-                JSONObject tmp= (JSONObject) json.get("riconoscimento");
-                if (tmp.containsKey("filename")) {
-                    fileName=(String) tmp.get("filename");
-                }
-                if (tmp.containsKey("warning-level")) {
-                    warningLevel=(String) tmp.get("warning-level");
-                }
-                if (tmp.containsKey("time")) {
-                    time=(String) tmp.get("time");
-                }
-            }
-            
-            
+        /*
+         *  Quando l'utente marca come letta una notivica
+         *  Si imposta a a 0 il flag new
+         */  
+        private void updateDb(int id) throws SQLException { 
             Connection conn=connect();
             if (conn!=null){
-                PreparedStatement stmt = conn.prepareStatement("INSERT INTO ricezioni(\n"+
-                        "`warning`,`file`,`time`,`new`,`json`) \n"+
-                        "VALUES (?,?,?,?,?)");
-                stmt.setString(1,warningLevel);
-                stmt.setString(2,fileName);
-                stmt.setString(3,time);
-                stmt.setInt(4, 1);
-                stmt.setString(5, json.toString());
+                PreparedStatement stmt = conn.prepareStatement("UPDATE  ricezioni(\n"+
+                        "SET `new`= 0 \n"+
+                        "WHERE id=?");
+                stmt.setInt(1, id);
                 stmt.executeUpdate();
                 conn.close();
             }
             else {
                 throw new SQLException("Impossibile inserire");
             }
-            
-            
-            //System.out.println("Inserisco:"+fileName+" "+warningLevel+" "+time);
         }
     }
     
