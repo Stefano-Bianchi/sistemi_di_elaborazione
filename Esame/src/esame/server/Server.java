@@ -42,6 +42,7 @@ import java.util.Map.Entry;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Server {
 
@@ -339,8 +340,13 @@ public class Server {
 //            return parameters;
 //          }
 
+        
+        /*
+        * usiamo https://github.com/fangyidong/json-simple
+        * come consigliato da http://www.java67.com/2016/10/3-ways-to-convert-string-to-json-object-in-java.html
+        */
 
-        private JSONObject interrogaDB(String command, int id) throws SQLException {
+        private JSONObject interrogaDB(String command, int id) throws SQLException, ParseException {
             JSONObject out=new JSONObject();
             String query="SELECT * FROM ricezioni"; // seleziona tutti i contenuti
             switch(command){ 
@@ -369,7 +375,9 @@ public class Server {
                 tmp.put("file", rs.getString("file"));
                 tmp.put("time", rs.getString("time"));
                 tmp.put("new", rs.getInt("new"));
-                tmp.put("detection", rs.getString("json"));
+                JSONParser parser = new JSONParser();
+                JSONObject json = (JSONObject) parser.parse(rs.getString("json"));
+                tmp.put("data", json);
                 risultati.add(tmp); // accoda il risultato
             }
             out.put("status", true); // imposto true per confermare che tutto è andato bebe
