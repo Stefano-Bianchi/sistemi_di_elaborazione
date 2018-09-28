@@ -5,6 +5,7 @@
  */
 package esame.server;
 
+import com.sun.net.httpserver.Headers;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -25,10 +26,18 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -200,57 +209,17 @@ public class Server {
     static class MyHandlerUsers implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
-//            for (Iterator<Entry<String, List<String>>> it = t.getRequestHeaders().entrySet().iterator(); it.hasNext();) {
-//                Entry<String, List<String>> header = it.next();
-//                System.out.println(header.getKey() + ": " + header.getValue().get(0)); // solo per debug
-//            }
-                DiskFileItemFactory d = new DiskFileItemFactory();      
-                OutputStream os = t.getResponseBody();               
-                    
+            HashMap<String, Object> params = new HashMap();
+                    parseQuery(t.getRequestURI().getQuery(),params);
+
+                 OutputStream os = t.getResponseBody();
+                JSONObject out = new JSONObject();
+                out.put("status", false);
                 try {
-                    ServletFileUpload up = new ServletFileUpload(d);
-                    List<FileItem> result = up.parseRequest(new RequestContext() {
-
-                        @Override
-                        public String getCharacterEncoding() {
-                            return "UTF-8";
-                        }
-
-                        @Override
-                        public int getContentLength() {
-                            return 0; //tested to work with 0 as return
-                        }
-
-                        @Override
-                        public String getContentType() {
-                            return t.getRequestHeaders().getFirst("Content-type");
-                        }
-
-                        @Override
-                        public InputStream getInputStream() throws IOException {
-                            return t.getRequestBody();
-                        }
-
-                    });
                     t.getResponseHeaders().add("Content-type", "text/plain");
-                    String command="";
-                    int id=-1;
-                    for(FileItem fi : result) {
-                        switch(fi.getFieldName()){
-                            case ("command"):
-                                command=fi.getName();
-                                break;
-                            case ("id"):
-                                String tmp=fi.getName();
-                                if (tmp!=null){
-                                    id= Integer.valueOf(tmp);
-                                }
-                                break;
-                            default:
-                                System.out.println("Opzione imprevista");
-                                break;
-                        }
-                    }
+                    String command=(String) params.get("command");
+                    int id=Integer.parseInt((String) params.get("id"));
+                   
                     /*
                     * dopo aver acquisito il comando da eseguire
                     * e l'eventuale paramentro
@@ -265,16 +234,22 @@ public class Server {
                     */
                     
                     if (command!=null){
+                        
                         switch(command){ 
                             case "listNew": // chiede al db i soli contenuti con flag new a 1
+                                out=interrogaDB(command);
                                 break;
                             case "listAll": // chiede al db tutti i contenuti
+                                out=interrogaDB(command);
                                 break;
                             case "read": // chiede al db il contentuo con id=...
+                                out=interrogaDB(command,id);
                                 break;
                             case "update": // imposta lo stato di id=... a letto
+                                out=updateDB(id);
                                 break;
                             case "getFile": // chiede il file associato a id=...
+                                out=interrogaDB(command,id);
                                 break;
                             default: // restituiamo un errore
                                 break;
@@ -286,39 +261,113 @@ public class Server {
                     }
                     System.out.println("comando: " + command +" id: "+id);
                     t.sendResponseHeaders(200, 0);
-                    os.write("OK\r\n".getBytes());
+                    os.write(out.toJSONString().getBytes());
                     os.close();
 
                 } catch (Exception e) {
                     e.printStackTrace();
                     t.sendResponseHeaders(404, 0);
-                    os.write("KO\r\n".getBytes());
+                    os.write(out.toJSONString().getBytes());
                     os.close();
                 } 
 
 
         }
+        
+        //  https://www.codeproject.com/Tips/1040097/Create-simple-http-server-in-Java
+        public static void parseQuery(String query, Map<String, 
+	Object> parameters) throws UnsupportedEncodingException {
 
+         if (query != null) {
+                 String pairs[] = query.split("[&]");
+                 for (String pair : pairs) {
+                          String param[] = pair.split("[=]");
+                          String key = null;
+                          String value = null;
+                          if (param.length > 0) {
+                          key = URLDecoder.decode(param[0], 
+                          	System.getProperty("file.encoding"));
+                          }
+
+                          if (param.length > 1) {
+                                   value = URLDecoder.decode(param[1], 
+                                   System.getProperty("file.encoding"));
+                          }
+
+                          if (parameters.containsKey(key)) {
+                                   Object obj = parameters.get(key);
+                                   if (obj instanceof List<?>) {
+                                            List<String> values = (List<String>) obj;
+                                            values.add(value);
+
+                                   } else if (obj instanceof String) {
+                                            List<String> values = new ArrayList<String>();
+                                            values.add((String) obj);
+                                            values.add(value);
+                                            parameters.put(key, values);
+                                            
+                                   }
+                          } else {
+                                   parameters.put(key, value);
+                          }
+                 }
+         }
+}
+        
+        static Map<String, String> getParameters(HttpExchange httpExchange) throws IOException {
+            Map<String, String> parameters = new HashMap<>();
+            InputStream inputStream = httpExchange.getRequestBody();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[2048];
+            int read = 0;
+            while ((read = inputStream.read(buffer)) != -1) {
+              byteArrayOutputStream.write(buffer, 0, read);
+            }
+            String[] keyValuePairs = byteArrayOutputStream.toString().split("&");
+            for (String keyValuePair : keyValuePairs) {
+              String[] keyValue = keyValuePair.split("=");
+              if (keyValue.length != 2) {
+                continue;
+              }
+              parameters.put(keyValue[0], keyValue[1]);
+            }
+            return parameters;
+          }
+
+
+        private JSONObject interrogaDB(String command, int id) {
+            JSONObject out=new JSONObject();
+            out.put("status", true);
+            return out;
+        }
+        private JSONObject interrogaDB(String command) {
+            JSONObject out=new JSONObject();
+            out.put("status", true);
+            return out;
+        }
+        
         /*
          *  Quando l'utente marca come letta una notivica
          *  Si imposta a a 0 il flag new
-         */  
-        private void updateDb(int id) throws SQLException { 
-            Connection conn=connect();
+         */ 
+
+        private JSONObject updateDB(int id) throws SQLException {
+             Connection conn=connect();
+            JSONObject out=new JSONObject();
+            out.put("status", false);
             if (conn!=null){
-                PreparedStatement stmt = conn.prepareStatement("UPDATE  ricezioni(\n"+
-                        "SET `new`= 0 \n"+
-                        "WHERE id=?");
+                PreparedStatement stmt = conn.prepareStatement("UPDATE  ricezioni SET `new`= 0 WHERE id=?");
                 stmt.setInt(1, id);
                 stmt.executeUpdate();
                 conn.close();
+                out.put("status", true);
             }
             else {
-                throw new SQLException("Impossibile inserire");
+                throw new SQLException("Impossibile aggiornare");
             }
+            return out;
         }
+
     }
     
 }
-
-
