@@ -20,8 +20,8 @@ public class RemoteDevice {
     ArrayList<JSONObject> outQueue;
     
     public RemoteDevice(){
-        id="";
-        name="";
+        id=""; // un numero univoco del dispositivo
+        name=""; // giusto per identificare più agevolmente il dispositivo
         position=new JSONObject();
         outQueue=new ArrayList();
     }
@@ -38,7 +38,7 @@ public class RemoteDevice {
         position.put("type", "Point"); // http://geojson.org/geojson-spec.html
         double[] pos= new double[2];
         pos[0]=lng; // nel formato GeoJSON sono memorizzate invertite queste informazioni
-        pos[1]=lat; // ma meglio verificare, potrei ricordare male
+        pos[1]=lat; 
         position.put("coordinates", Arrays.toString(pos));
     }
     
@@ -65,7 +65,7 @@ public class RemoteDevice {
         rm.setPosition(38.391084, 16.188085);
         
         Uploader up=new Uploader();
-        up.setUrl("localhost:8000");
+        up.setUrl("localhost:8000"); // URL di comunicazione tra il dispositivo e il server?
         up.setToSend(rm.getOutQueue());
 
         // all'interno di while true va fatto un check sulla disponibilità di un nuovo file da processare

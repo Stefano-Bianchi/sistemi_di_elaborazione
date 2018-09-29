@@ -43,7 +43,7 @@ public class Uploader extends Thread{
     
     private int sendPost() throws Exception { // metodo da sistemare
 
-		URL obj = new URL(url);
+		URL obj = new URL("http://localhost:8000");
 		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
 		//add reuqest header
