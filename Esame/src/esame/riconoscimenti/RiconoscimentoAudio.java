@@ -29,18 +29,7 @@ public class RiconoscimentoAudio {
         configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
         configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
 
-//        LiveSpeechRecognizer recognizer = new LiveSpeechRecognizer(configuration);
-        // Start recognition process pruning previously cached data.
-//        recognizer.startRecognition(true);
-//        while (true){
-//            SpeechResult result = recognizer.getResult();
-//            System.out.format("Hypothesis: %s\n", result.getHypothesis());}
-
-        // Pause recognition process. It can be resumed then with startRecognition(false).
-//        recognizer.stopRecognition();
-        
-        
-	StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
+        StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
 	InputStream stream = new FileInputStream(new File(filename));
         long t1=System.currentTimeMillis();
 
@@ -49,11 +38,8 @@ public class RiconoscimentoAudio {
 	SpeechResult result;
         ArrayList<String> words=new ArrayList();
         while ((result = recognizer.getResult()) != null) {
-	    //System.out.format("Hypothesis: %s\n", result.getHypothesis());
-            String tmp=result.getHypothesis();
-//            if (!(tmp.compareTo("")==0)||!(Arrays.asList(words).contains(tmp))){
-                words.add(tmp);
-//            }
+	    String tmp=result.getHypothesis();
+            words.add(tmp);
 	}
         
 	recognizer.stopRecognition();

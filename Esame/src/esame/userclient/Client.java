@@ -30,7 +30,7 @@ public class Client extends javax.swing.JFrame {
     /**
      * Creates new form Client
      */
-    public Client() {
+    public Client() { // in questo come in tutti gli altri casi un cui vengono passati parametri, sarebbe opportuno usare un file di configurazione (magari JSON) che venga letto all'avvio
         this.getUrl = "http://localhost:8000/user?";
         this.userAgent = "Mozilla/5.0";
         initComponents();
@@ -166,8 +166,7 @@ public class Client extends javax.swing.JFrame {
             JSONArray results= (JSONArray) json.get("results");
             
             
-            
-            for (int i=0;i<json.size();i++){
+            for (int i=0;i<results.size();i++){
                Riconoscimento ric=new Riconoscimento((JSONObject) results.get(i));
                jTextArea1.append(ric.printKeyWords()+"\n");
             }

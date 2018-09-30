@@ -43,7 +43,7 @@ public class RemoteDevice {
         outQueue=new LinkedList();
         upl=new Uploader();
         upl.setToSend(outQueue);
-        upl.setUrl("localhost:8000"); // questo valore andrebbe inserito in un file di configurazione, st
+        upl.setUrl("http://localhost:8000/upload"); // questo valore andrebbe inserito in un file di configurazione, st
     }
     
     public void setId(String id){
@@ -149,7 +149,6 @@ public class RemoteDevice {
                                 break;
                         }
                         JSONObject elaborato=elabora(fileName);
-                        System.out.println(elaborato);
                         synchronized (this){ // acquisisco il lock sulla risorsa condivisa tra RemoteDevice e Uploader
                             outQueue.add(elaborato); // per come consigliato su https://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/
                         }

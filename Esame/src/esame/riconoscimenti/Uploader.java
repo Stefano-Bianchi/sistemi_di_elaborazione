@@ -5,14 +5,11 @@
  */
 package esame.riconoscimenti;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -21,7 +18,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.simple.JSONObject;
@@ -49,7 +45,6 @@ public class Uploader extends Thread{
     public void run(){
         while (true){
             synchronized (this){
-                
                 if (this.toSend.size()>0){
                     System.out.println("Uploader: contenuti nella coda, eseguo l'invio");
                     json=toSend.peek(); // prende il primo elemento della coda
@@ -72,7 +67,6 @@ public class Uploader extends Thread{
                     System.out.println("Uploader: non ci sono dati da inviare");
                 }
             }
-            //System.out.println("Attendo 5 secondi");
             try {
                 TimeUnit.SECONDS.sleep(5);
             } catch (InterruptedException ex) {
@@ -86,62 +80,43 @@ public class Uploader extends Thread{
     */
     private JSONObject sendPost() {
         JSONObject out=new JSONObject();
-        MultipartEntity entity = new MultipartEntity();
-        entity.addPart("audio", new FileBody(new File(fileName)));
-        //new File("json.json").new ByteArrayInputStream(json.toJSONString().getBytes()))
-        entity.addPart("json",  new FileBody(null));
-        
-        HttpPost request = new HttpPost(url);
-        request.setEntity(entity);
-
-        HttpClient client = new DefaultHttpClient();
-        HttpResponse response;
+        out.put("status", false);
+        File jsonFile = null;
         try {
-            response = client.execute(request);
-            System.out.println(response);
-            out.put("status", true);
+            /*
+             *  generiamo un file temporaneo 
+             * https://stackoverflow.com/questions/26860167/java-safe-way-to-create-a-temp-file
+             */
+            jsonFile = File.createTempFile("json-",".json"); // andrebbe generato un fileName casuale per evitare 
+            OutputStream outStream = new FileOutputStream(jsonFile);
+            outStream.write(json.toJSONString().getBytes());
+            outStream.flush();
+            
+            MultipartEntity entity = new MultipartEntity();
+            entity.addPart("audio", new FileBody(new File(fileName)));
+            entity.addPart("json",  new FileBody(jsonFile));
+            
+            HttpPost request = new HttpPost(url);
+            request.setEntity(entity);
+            
+            HttpClient client = new DefaultHttpClient();
+            HttpResponse response;
+            try {
+                response = client.execute(request);
+                System.out.println(response);
+                out.put("status", true);
+            } catch (IOException ex) {
+                Logger.getLogger(Uploader.class.getName()).log(Level.SEVERE, null, ex);
+                out.put("status", false);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Uploader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Uploader.class.getName()).log(Level.SEVERE, null, ex);
-            out.put("status", false);
+        }
+        if (jsonFile!=null) {
+            jsonFile.delete();
         }
         return out;
     }
-    
-//    private JSONObject sendPOST() throws IOException {
-//        URL obj = new URL(url);
-//        JSONObject json=new JSONObject();
-//        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-//        con.setRequestMethod("POST");
-//        con.setRequestProperty("User-Agent", "");
-//
-//        // For POST only - START
-//        con.setDoOutput(true);
-//        OutputStream os = con.getOutputStream();
-//        os.write("".getBytes());
-//        os.flush();
-//        os.close();
-//        // For POST only - END
-//
-//        int responseCode = con.getResponseCode();
-//        System.out.println("POST Response Code :: " + responseCode);
-//
-//        if (responseCode == HttpURLConnection.HTTP_OK) { //success
-//            BufferedReader in = new BufferedReader(new InputStreamReader(
-//                            con.getInputStream()));
-//            String inputLine;
-//            StringBuffer response = new StringBuffer();
-//
-//            while ((inputLine = in.readLine()) != null) {
-//                    response.append(inputLine);
-//            }
-//            in.close();
-//
-//            // print result
-//            System.out.println(response.toString());
-//             json.put("status", true);
-//        } else {
-//            json.put("status", false);
-//        }
-//        return json;
-//    }
 }
