@@ -51,21 +51,30 @@ public class Uploader extends Thread{
             synchronized (this){
                 
                 if (this.toSend.size()>0){
+                    System.out.println("Uploader: contenuti nella coda, eseguo l'invio");
                     json=toSend.peek(); // prende il primo elemento della coda
                     JSONObject riconoscimento=(JSONObject) json.get("riconoscimento");
                     fileName=(String) riconoscimento.get("filename");
                     System.out.println(json.toJSONString());
                     JSONObject ret=sendPost();
                     if ((boolean)ret.get("status")){
+                        System.out.println("Uploader: contenuto inviato");
                         toSend.pop(); // rimuovo il primo elemento perché il trasferimento è andato a buon file
+                    } else {
+                        System.out.println("Uploader: contenuto non inviato, nuovo tentativo in corso");
+                        try {
+                            TimeUnit.SECONDS.sleep(5); // attendo 5 secondi per non sovracaricare il server
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Uploader.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 } else {
-                    System.out.println("Non ci sono dati da inviare");
+                    System.out.println("Uploader: non ci sono dati da inviare");
                 }
             }
-            System.out.println("Attendo 5 secondi");
+            //System.out.println("Attendo 5 secondi");
             try {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.SECONDS.sleep(5);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Uploader.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -79,7 +88,8 @@ public class Uploader extends Thread{
         JSONObject out=new JSONObject();
         MultipartEntity entity = new MultipartEntity();
         entity.addPart("audio", new FileBody(new File(fileName)));
-        entity.addPart("json",  new FileBody(new ByteArrayInputStream(json.toJSONString().getBytes())));
+        //new File("json.json").new ByteArrayInputStream(json.toJSONString().getBytes()))
+        entity.addPart("json",  new FileBody(null));
         
         HttpPost request = new HttpPost(url);
         request.setEntity(entity);
