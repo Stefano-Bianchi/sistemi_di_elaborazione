@@ -5,6 +5,7 @@
  */
 package esame.userclient;
 
+import esame.strutturedati.Riconoscimento;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,21 +13,28 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
  *
- * @author elsoft
+ * @author Stefano
  */
 public class Client extends javax.swing.JFrame {
 
+    String userAgent;
+    String getUrl;
+    
     /**
      * Creates new form Client
      */
     public Client() {
+        this.getUrl = "http://localhost:8000/user?";
+        this.userAgent = "Mozilla/5.0";
         initComponents();
+        
     }
 
     /**
@@ -43,8 +51,10 @@ public class Client extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        nuoviButton = new javax.swing.JButton();
+        tuttiButton = new javax.swing.JButton();
+        lettoButton = new javax.swing.JButton();
+        audioButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,19 +75,23 @@ public class Client extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        jButton1.setText("Nuovi");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        nuoviButton.setText("Nuovi");
+        nuoviButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                nuoviButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Tutti");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        tuttiButton.setText("Tutti");
+        tuttiButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                tuttiButtonActionPerformed(evt);
             }
         });
+
+        lettoButton.setText("Letto");
+
+        audioButton.setText("Ascolta audio");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -86,21 +100,30 @@ public class Client extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(nuoviButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tuttiButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lettoButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(audioButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {audioButton, lettoButton, nuoviButton, tuttiButton});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(nuoviButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addComponent(tuttiButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lettoButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(audioButton)
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -137,18 +160,26 @@ public class Client extends javax.swing.JFrame {
      *  https://www.journaldev.com/7148/java-httpurlconnection-example-java-http-request-get-post
      */
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void nuoviButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuoviButtonActionPerformed
         try {
             JSONObject json=this.sendGET("command=listAll");
-            jTextArea1.setText(json.toJSONString());
+            JSONArray results= (JSONArray) json.get("results");
+            
+            
+            
+            for (int i=0;i<json.size();i++){
+               Riconoscimento ric=new Riconoscimento((JSONObject) results.get(i));
+               jTextArea1.append(ric.printKeyWords()+"\n");
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_nuoviButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void tuttiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tuttiButtonActionPerformed
         try {
             JSONObject json=this.sendGET("command=listNew");
             jTextArea1.setText(json.toJSONString());
@@ -157,17 +188,15 @@ public class Client extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_tuttiButtonActionPerformed
 
     private JSONObject sendGET(String param) throws IOException, ParseException {
-        String USER_AGENT = "Mozilla/5.0";
-        String GET_URL = "http://localhost:8000/user?";
-	JSONObject json=new JSONObject();
+        JSONObject json=new JSONObject();
         json.put("status", false);
-        URL obj = new URL(GET_URL+param);
+        URL obj = new URL(getUrl+param);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
+        con.setRequestProperty("User-Agent", userAgent);
         int responseCode = con.getResponseCode();
         System.out.println("GET Response Code :: " + responseCode);
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
@@ -225,13 +254,15 @@ public class Client extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton audioButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JButton lettoButton;
+    private javax.swing.JButton nuoviButton;
+    private javax.swing.JButton tuttiButton;
     // End of variables declaration//GEN-END:variables
 
  

@@ -42,15 +42,23 @@ public class RiconoscimentoAudio {
         
 	StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
 	InputStream stream = new FileInputStream(new File(filename));
+        long t1=System.currentTimeMillis();
 
         recognizer.startRecognition(stream);
+        long t2=System.currentTimeMillis();
 	SpeechResult result;
         ArrayList<String> words=new ArrayList();
         while ((result = recognizer.getResult()) != null) {
 	    //System.out.format("Hypothesis: %s\n", result.getHypothesis());
-            words.add(result.getHypothesis());
+            String tmp=result.getHypothesis();
+//            if (!(tmp.compareTo("")==0)||!(Arrays.asList(words).contains(tmp))){
+                words.add(tmp);
+//            }
 	}
+        
 	recognizer.stopRecognition();
+        long t3=System.currentTimeMillis();
+        System.out.println("T1: "+(t2-t1)+"\nT2: "+(t3-t1));
         JSONObject obj = new JSONObject();
         
         obj.put("filename",filename);

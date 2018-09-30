@@ -5,7 +5,6 @@
  */
 package esame.server;
 
-import com.sun.net.httpserver.Headers;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -33,23 +32,31 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
-import org.apache.commons.io.output.ByteArrayOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Server {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
+        Server srv=new Server();
+        try {
+            srv.start();
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void start() throws IOException{
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
-        server.createContext("/upload", new MyHandlerDevices()); //     Endpoint utilizzato dai dispositivi remoti. RaspBerry Pi nella prima veriosne
-        server.createContext("/user", new MyHandlerUsers()); //     Endpoint utilizzato dai dispositivi remoti. RaspBerry Pi nella prima veriosne
+        server.createContext("/upload", new MyHandlerForDevices()); //     Endpoint utilizzato dai dispositivi remoti. RaspBerry Pi nella prima veriosne
+        server.createContext("/user", new MyHandlerForUsers()); //     Endpoint utilizzato dai dispositivi remoti. RaspBerry Pi nella prima veriosne
         server.setExecutor(null); // creates a default executor
         server.start();
     }
@@ -86,13 +93,9 @@ public class Server {
     * Porzioni di codice prese da :
     * https://stackoverflow.com/questions/33732110/file-upload-using-httphandler
     */
-    static class MyHandlerDevices implements HttpHandler {
+    class MyHandlerForDevices implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
-//            for (Iterator<Entry<String, List<String>>> it = t.getRequestHeaders().entrySet().iterator(); it.hasNext();) {
-//                Entry<String, List<String>> header = it.next();
-//                System.out.println(header.getKey() + ": " + header.getValue().get(0)); // solo per debug
-//            }
                 DiskFileItemFactory d = new DiskFileItemFactory();      
                 OutputStream os = t.getResponseBody();               
                 JSONObject out = new JSONObject();
@@ -209,7 +212,7 @@ public class Server {
     * Porzioni di codice prese da :
     * https://stackoverflow.com/questions/33732110/file-upload-using-httphandler
     */
-    static class MyHandlerUsers implements HttpHandler {
+    class MyHandlerForUsers implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
             HashMap<String, Object> params = new HashMap();
@@ -281,7 +284,7 @@ public class Server {
         }
         
         //  https://www.codeproject.com/Tips/1040097/Create-simple-http-server-in-Java
-        public static void parseQuery(String query, Map<String, 
+        public void parseQuery(String query, Map<String, 
 	Object> parameters) throws UnsupportedEncodingException {
 
         if (query != null) {
@@ -320,27 +323,7 @@ public class Server {
          }
 }
         
-//        static Map<String, String> getParameters(HttpExchange httpExchange) throws IOException {
-//            Map<String, String> parameters = new HashMap<>();
-//            InputStream inputStream = httpExchange.getRequestBody();
-//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//            byte[] buffer = new byte[2048];
-//            int read = 0;
-//            while ((read = inputStream.read(buffer)) != -1) {
-//              byteArrayOutputStream.write(buffer, 0, read);
-//            }
-//            String[] keyValuePairs = byteArrayOutputStream.toString().split("&");
-//            for (String keyValuePair : keyValuePairs) {
-//              String[] keyValue = keyValuePair.split("=");
-//              if (keyValue.length != 2) {
-//                continue;
-//              }
-//              parameters.put(keyValue[0], keyValue[1]);
-//            }
-//            return parameters;
-//          }
-
-        
+       
         /*
         * usiamo https://github.com/fangyidong/json-simple
         * come consigliato da http://www.java67.com/2016/10/3-ways-to-convert-string-to-json-object-in-java.html
