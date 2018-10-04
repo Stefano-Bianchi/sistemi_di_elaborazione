@@ -93,7 +93,7 @@ public class RemoteDevice {
     
     public void start() throws IOException{
         HttpServer server = HttpServer.create(new InetSocketAddress(8100), 0);
-        server.createContext("/avaible", new MyHandlerDevices()); //     Endpoint utilizzato dal monitor per inviare un file appena presente
+        server.createContext("/available", new MyHandlerDevices()); //     Endpoint utilizzato dal monitor per inviare un file appena presente
         server.setExecutor(null); // creates a default executor
         server.start();
         upl.start();

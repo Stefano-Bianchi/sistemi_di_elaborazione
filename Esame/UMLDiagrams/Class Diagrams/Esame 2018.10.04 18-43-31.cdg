@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Esame">
+  <ClassDiagramComponents>
+    <Class name="Esame" package="esame" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="RemoteDevice" package="esame.riconoscimenti" visibility="public" xPosition="320.0" yPosition="20.0">
+      <Fields>
+        <Field name="id" type="String" visibility="package"/>
+        <Field name="name" type="String" visibility="package"/>
+        <Field name="position" type="JSONObject" visibility="package"/>
+        <Field name="outQueue" type="LinkedList&lt;JSONObject&gt;" visibility="package" isStatic="true"/>
+        <Field name="upl" type="Uploader" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="String" name="id"/>
+        </Method>
+        <Method name="setName" returnType="void" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="setPosition" returnType="void" visibility="public">
+          <Argument type="double" name="lat"/>
+          <Argument type="double" name="lng"/>
+        </Method>
+        <Method name="getOutQueue" returnType="LinkedList&lt;JSONObject&gt;" visibility="public"/>
+        <Method name="getId" returnType="String" visibility="public"/>
+        <Method name="getName" returnType="String" visibility="public"/>
+        <Method name="getPosition" returnType="JSONObject" visibility="public"/>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+        <Method name="start" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="RiconoscimentoAudio" package="esame.riconoscimenti" visibility="public" xPosition="620.0" yPosition="20.0">
+      <Fields>
+        <Field name="filename" type="String" visibility="package"/>
+        <Field name="hotWords" type="String[]" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="filename"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="decode" returnType="JSONObject" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Uploader" package="esame.riconoscimenti" visibility="public" xPosition="920.0" yPosition="20.0">
+      <Fields>
+        <Field name="url" type="String" visibility="package"/>
+        <Field name="toSend" type="LinkedList&lt;JSONObject&gt;" visibility="package"/>
+        <Field name="json" type="JSONObject" visibility="private"/>
+        <Field name="fileName" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="setUrl" returnType="void" visibility="public">
+          <Argument type="String" name="url"/>
+        </Method>
+        <Method name="setToSend" returnType="void" visibility="public">
+          <Argument type="LinkedList" name="toSend"/>
+        </Method>
+        <Method name="run" returnType="void" visibility="public"/>
+        <Method name="sendPost" returnType="JSONObject" visibility="private"/>
+      </Methods>
+    </Class>
+    <Class name="Server" package="esame.server" visibility="public" xPosition="1220.0" yPosition="20.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+        <Method name="start" returnType="void" visibility="public"/>
+        <Method name="connect" returnType="Connection" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="Riconoscimento" package="esame.strutturedati" visibility="public" xPosition="1520.0" yPosition="20.0">
+      <Fields>
+        <Field name="id" type="long" visibility="package"/>
+        <Field name="warning" type="String" visibility="package"/>
+        <Field name="fileName" type="String" visibility="package"/>
+        <Field name="lat" type="Double" visibility="package"/>
+        <Field name="lng" type="Double" visibility="package"/>
+        <Field name="keywords" type="ArrayList&lt;String&gt;" visibility="package"/>
+        <Field name="time" type="String" visibility="package"/>
+        <Field name="deviceId" type="String" visibility="package"/>
+        <Field name="deviceName" type="String" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="JSONObject" name="json"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="printKeyWords" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Client" package="esame.userclient" visibility="public" xPosition="1820.0" yPosition="20.0">
+      <Fields>
+        <Field name="userAgent" type="String" visibility="package"/>
+        <Field name="getUrl" type="String" visibility="package"/>
+        <Field name="audioButton" type="javax.swing.JButton" visibility="private"/>
+        <Field name="jPanel1" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="jScrollPane1" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jScrollPane2" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jTable1" type="javax.swing.JTable" visibility="private"/>
+        <Field name="jTextArea1" type="javax.swing.JTextArea" visibility="private"/>
+        <Field name="lettoButton" type="javax.swing.JButton" visibility="private"/>
+        <Field name="nuoviButton" type="javax.swing.JButton" visibility="private"/>
+        <Field name="tuttiButton" type="javax.swing.JButton" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="initComponents" returnType="// &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+void" visibility="private"/>
+        <Method name="nuoviButtonActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="tuttiButtonActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="sendGET" returnType="JSONObject" visibility="private">
+          <Argument type="String" name="param"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ItemList" package="org.json.simple" visibility="public" xPosition="2120.0" yPosition="20.0">
+      <Fields>
+        <Field name="sp" type="String" visibility="private"/>
+        <Field name="items" type="List" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="String" name="s"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="String" name="s"/>
+          <Argument type="String" name="sp"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="String" name="s"/>
+          <Argument type="String" name="sp"/>
+          <Argument type="boolean" name="isMultiToken"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getItems" returnType="List" visibility="public"/>
+        <Method name="getArray" returnType="String[]" visibility="public"/>
+        <Method name="split" returnType="void" visibility="public">
+          <Argument type="String" name="s"/>
+          <Argument type="String" name="sp"/>
+          <Argument type="List" name="append"/>
+          <Argument type="boolean" name="isMultiToken"/>
+        </Method>
+        <Method name="split" returnType="void" visibility="public">
+          <Argument type="String" name="s"/>
+          <Argument type="String" name="sp"/>
+          <Argument type="List" name="append"/>
+        </Method>
+        <Method name="setSP" returnType="void" visibility="public">
+          <Argument type="String" name="sp"/>
+        </Method>
+        <Method name="add" returnType="void" visibility="public">
+          <Argument type="int" name="i"/>
+          <Argument type="String" name="item"/>
+        </Method>
+        <Method name="add" returnType="void" visibility="public">
+          <Argument type="String" name="item"/>
+        </Method>
+        <Method name="addAll" returnType="void" visibility="public">
+          <Argument type="ItemList" name="list"/>
+        </Method>
+        <Method name="addAll" returnType="void" visibility="public">
+          <Argument type="String" name="s"/>
+        </Method>
+        <Method name="addAll" returnType="void" visibility="public">
+          <Argument type="String" name="s"/>
+          <Argument type="String" name="sp"/>
+        </Method>
+        <Method name="addAll" returnType="void" visibility="public">
+          <Argument type="String" name="s"/>
+          <Argument type="String" name="sp"/>
+          <Argument type="boolean" name="isMultiToken"/>
+        </Method>
+        <Method name="get" returnType="String" visibility="public">
+          <Argument type="int" name="i"/>
+        </Method>
+        <Method name="size" returnType="int" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public">
+          <Argument type="String" name="sp"/>
+        </Method>
+        <Method name="clear" returnType="void" visibility="public"/>
+        <Method name="reset" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="JSONArray" package="org.json.simple" visibility="public" xPosition="20.0" yPosition="420.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Collection" name="c"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Collection" name="collection"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public">
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="Collection" name="collection"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="byte[]" name="array"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="byte[]" name="array"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="short[]" name="array"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="short[]" name="array"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="int[]" name="array"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="int[]" name="array"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="long[]" name="array"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="long[]" name="array"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="float[]" name="array"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="float[]" name="array"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="double[]" name="array"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="double[]" name="array"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="boolean[]" name="array"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="boolean[]" name="array"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="char[]" name="array"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="char[]" name="array"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Object[]" name="array"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="Object[]" name="array"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Interface name="JSONAware" package="org.json.simple" visibility="public" xPosition="320.0" yPosition="420.0">
+      <Methods>
+        <Method name="toJSONString" returnType="String" visibility="package"/>
+      </Methods>
+    </Interface>
+    <Class name="JSONObject" package="org.json.simple" visibility="public" xPosition="620.0" yPosition="420.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Map" name="map"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Map" name="map"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public">
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="Map" name="map"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="String" name="key"/>
+          <Argument type="Object" name="value"/>
+        </Method>
+        <Method name="escape" returnType="String" visibility="public" isStatic="true">
+          <Argument type="String" name="s"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Interface name="JSONStreamAware" package="org.json.simple" visibility="public" xPosition="920.0" yPosition="420.0">
+      <Methods>
+        <Method name="writeJSONString" returnType="void" visibility="package">
+          <Argument type="Writer" name="out"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Class name="JSONValue" package="org.json.simple" visibility="public" xPosition="1220.0" yPosition="420.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="parse" returnType="Object" visibility="public" isStatic="true">
+          <Argument type="Reader" name="in"/>
+        </Method>
+        <Method name="parse" returnType="Object" visibility="public" isStatic="true">
+          <Argument type="String" name="s"/>
+        </Method>
+        <Method name="parseWithException" returnType="Object" visibility="public" isStatic="true">
+          <Argument type="Reader" name="in"/>
+        </Method>
+        <Method name="parseWithException" returnType="Object" visibility="public" isStatic="true">
+          <Argument type="String" name="s"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Object" name="value"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="Object" name="value"/>
+        </Method>
+        <Method name="escape" returnType="String" visibility="public" isStatic="true">
+          <Argument type="String" name="s"/>
+        </Method>
+        <Method name="escape" returnType="void" visibility="package" isStatic="true">
+          <Argument type="String" name="s"/>
+          <Argument type="StringBuffer" name="sb"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Interface name="ContainerFactory" package="org.json.simple.parser" visibility="public" xPosition="1520.0" yPosition="420.0">
+      <Methods>
+        <Method name="createObjectContainer" returnType="Map" visibility="package"/>
+        <Method name="creatArrayContainer" returnType="List" visibility="package"/>
+      </Methods>
+    </Interface>
+    <Interface name="ContentHandler" package="org.json.simple.parser" visibility="public" xPosition="1820.0" yPosition="420.0">
+      <Methods>
+        <Method name="startJSON" returnType="void" visibility="package"/>
+        <Method name="endJSON" returnType="void" visibility="package"/>
+        <Method name="startObject" returnType="boolean" visibility="package"/>
+        <Method name="endObject" returnType="boolean" visibility="package"/>
+        <Method name="startObjectEntry" returnType="boolean" visibility="package">
+          <Argument type="String" name="key"/>
+        </Method>
+        <Method name="endObjectEntry" returnType="boolean" visibility="package"/>
+        <Method name="startArray" returnType="boolean" visibility="package"/>
+        <Method name="endArray" returnType="boolean" visibility="package"/>
+        <Method name="primitive" returnType="boolean" visibility="package">
+          <Argument type="Object" name="value"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Class name="JSONParser" package="org.json.simple.parser" visibility="public" xPosition="2120.0" yPosition="420.0">
+      <Fields>
+        <Field name="S_INIT" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="S_IN_FINISHED_VALUE" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="S_IN_OBJECT" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="S_IN_ARRAY" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="S_PASSED_PAIR_KEY" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="S_IN_PAIR_VALUE" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="S_END" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="S_IN_ERROR" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="handlerStatusStack" type="LinkedList" visibility="private"/>
+        <Field name="lexer" type="Yylex" visibility="private"/>
+        <Field name="token" type="Yytoken" visibility="private"/>
+        <Field name="status" type="int" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="peekStatus" returnType="int" visibility="private">
+          <Argument type="LinkedList" name="statusStack"/>
+        </Method>
+        <Method name="reset" returnType="void" visibility="public"/>
+        <Method name="reset" returnType="void" visibility="public">
+          <Argument type="Reader" name="in"/>
+        </Method>
+        <Method name="getPosition" returnType="int" visibility="public"/>
+        <Method name="parse" returnType="Object" visibility="public">
+          <Argument type="String" name="s"/>
+        </Method>
+        <Method name="parse" returnType="Object" visibility="public">
+          <Argument type="String" name="s"/>
+          <Argument type="ContainerFactory" name="containerFactory"/>
+        </Method>
+        <Method name="parse" returnType="Object" visibility="public">
+          <Argument type="Reader" name="in"/>
+        </Method>
+        <Method name="parse" returnType="Object" visibility="public">
+          <Argument type="Reader" name="in"/>
+          <Argument type="ContainerFactory" name="containerFactory"/>
+        </Method>
+        <Method name="nextToken" returnType="void" visibility="private"/>
+        <Method name="createObjectContainer" returnType="Map" visibility="private">
+          <Argument type="ContainerFactory" name="containerFactory"/>
+        </Method>
+        <Method name="createArrayContainer" returnType="List" visibility="private">
+          <Argument type="ContainerFactory" name="containerFactory"/>
+        </Method>
+        <Method name="parse" returnType="void" visibility="public">
+          <Argument type="String" name="s"/>
+          <Argument type="ContentHandler" name="contentHandler"/>
+        </Method>
+        <Method name="parse" returnType="void" visibility="public">
+          <Argument type="String" name="s"/>
+          <Argument type="ContentHandler" name="contentHandler"/>
+          <Argument type="boolean" name="isResume"/>
+        </Method>
+        <Method name="parse" returnType="void" visibility="public">
+          <Argument type="Reader" name="in"/>
+          <Argument type="ContentHandler" name="contentHandler"/>
+        </Method>
+        <Method name="parse" returnType="void" visibility="public">
+          <Argument type="Reader" name="in"/>
+          <Argument type="ContentHandler" name="contentHandler"/>
+          <Argument type="boolean" name="isResume"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ParseException" package="org.json.simple.parser" visibility="public" xPosition="20.0" yPosition="820.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ERROR_UNEXPECTED_CHAR" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="ERROR_UNEXPECTED_TOKEN" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="ERROR_UNEXPECTED_EXCEPTION" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="errorType" type="int" visibility="private"/>
+        <Field name="unexpectedObject" type="Object" visibility="private"/>
+        <Field name="position" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="errorType"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="int" name="errorType"/>
+          <Argument type="Object" name="unexpectedObject"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="int" name="position"/>
+          <Argument type="int" name="errorType"/>
+          <Argument type="Object" name="unexpectedObject"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getErrorType" returnType="int" visibility="public"/>
+        <Method name="setErrorType" returnType="void" visibility="public">
+          <Argument type="int" name="errorType"/>
+        </Method>
+        <Method name="getPosition" returnType="int" visibility="public"/>
+        <Method name="setPosition" returnType="void" visibility="public">
+          <Argument type="int" name="position"/>
+        </Method>
+        <Method name="getUnexpectedObject" returnType="Object" visibility="public"/>
+        <Method name="setUnexpectedObject" returnType="void" visibility="public">
+          <Argument type="Object" name="unexpectedObject"/>
+        </Method>
+        <Method name="getMessage" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Yylex" package="org.json.simple.parser" visibility="public" xPosition="320.0" yPosition="820.0">
+      <Fields>
+        <Field name="YYEOF" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_BUFFERSIZE" type="int" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="YYINITIAL" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="STRING_BEGIN" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_LEXSTATE" type="int" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_CMAP_PACKED" type="String" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_CMAP" type="char[]" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_ACTION" type="int[]" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_ACTION_PACKED_0" type="String" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_ROWMAP" type="int[]" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_ROWMAP_PACKED_0" type="String" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_TRANS" type="int" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_UNKNOWN_ERROR" type="int" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_NO_MATCH" type="int" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_PUSHBACK_2BIG" type="int" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_ERROR_MSG" type="String" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_ATTRIBUTE" type="int[]" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="ZZ_ATTRIBUTE_PACKED_0" type="String" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="zzReader" type="java.io.Reader" visibility="private"/>
+        <Field name="zzState" type="int" visibility="private"/>
+        <Field name="zzLexicalState" type="int" visibility="private"/>
+        <Field name="zzBuffer" type="char" visibility="private"/>
+        <Field name="zzMarkedPos" type="int" visibility="private"/>
+        <Field name="zzCurrentPos" type="int" visibility="private"/>
+        <Field name="zzStartRead" type="int" visibility="private"/>
+        <Field name="zzEndRead" type="int" visibility="private"/>
+        <Field name="yyline" type="int" visibility="private"/>
+        <Field name="yychar" type="int" visibility="private"/>
+        <Field name="yycolumn" type="int" visibility="private"/>
+        <Field name="zzAtBOL" type="boolean" visibility="private"/>
+        <Field name="zzAtEOF" type="boolean" visibility="private"/>
+        <Field name="sb" type="StringBuffer" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package">
+          <Argument type="java.io.Reader" name="in"/>
+        </Constructor>
+        <Constructor visibility="package">
+          <Argument type="java.io.InputStream" name="in"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="zzUnpackAction" returnType="int[]" visibility="private" isStatic="true"/>
+        <Method name="zzUnpackAction" returnType="int" visibility="private" isStatic="true">
+          <Argument type="String" name="packed"/>
+          <Argument type="int" name="offset"/>
+          <Argument type="int[]" name="result"/>
+        </Method>
+        <Method name="zzUnpackRowMap" returnType="int[]" visibility="private" isStatic="true"/>
+        <Method name="zzUnpackRowMap" returnType="int" visibility="private" isStatic="true">
+          <Argument type="String" name="packed"/>
+          <Argument type="int" name="offset"/>
+          <Argument type="int[]" name="result"/>
+        </Method>
+        <Method name="zzUnpackAttribute" returnType="int[]" visibility="private" isStatic="true"/>
+        <Method name="zzUnpackAttribute" returnType="int" visibility="private" isStatic="true">
+          <Argument type="String" name="packed"/>
+          <Argument type="int" name="offset"/>
+          <Argument type="int[]" name="result"/>
+        </Method>
+        <Method name="getPosition" returnType="int" visibility="package"/>
+        <Method name="zzUnpackCMap" returnType="char[]" visibility="private" isStatic="true">
+          <Argument type="String" name="packed"/>
+        </Method>
+        <Method name="zzRefill" returnType="boolean" visibility="private"/>
+        <Method name="yyclose" returnType="void" visibility="public" isFinal="true"/>
+        <Method name="yyreset" returnType="void" visibility="public" isFinal="true">
+          <Argument type="java.io.Reader" name="reader"/>
+        </Method>
+        <Method name="yystate" returnType="int" visibility="public" isFinal="true"/>
+        <Method name="yybegin" returnType="void" visibility="public" isFinal="true">
+          <Argument type="int" name="newState"/>
+        </Method>
+        <Method name="yytext" returnType="String" visibility="public" isFinal="true"/>
+        <Method name="yycharat" returnType="char" visibility="public" isFinal="true">
+          <Argument type="int" name="pos"/>
+        </Method>
+        <Method name="yylength" returnType="int" visibility="public" isFinal="true"/>
+        <Method name="zzScanError" returnType="void" visibility="private">
+          <Argument type="int" name="errorCode"/>
+        </Method>
+        <Method name="yypushback" returnType="void" visibility="public">
+          <Argument type="int" name="number"/>
+        </Method>
+        <Method name="yylex" returnType="Yytoken" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Yytoken" package="org.json.simple.parser" visibility="public" xPosition="620.0" yPosition="820.0">
+      <Fields>
+        <Field name="TYPE_VALUE" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="TYPE_LEFT_BRACE" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="TYPE_RIGHT_BRACE" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="TYPE_LEFT_SQUARE" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="TYPE_RIGHT_SQUARE" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="TYPE_COMMA" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="TYPE_COLON" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="TYPE_EOF" type="int" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="type" type="int" visibility="public"/>
+        <Field name="value" type="Object" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="type"/>
+          <Argument type="Object" name="value"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="org.json.simple.ItemList" target="org.json.simple.ItemList" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="esame.userclient.Client" target="org.json.simple.JSONObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="org.json.simple.parser.JSONParser" target="org.json.simple.parser.ContentHandler" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="esame.riconoscimenti.RemoteDevice" target="org.json.simple.JSONObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="org.json.simple.parser.JSONParser" target="org.json.simple.parser.ContainerFactory" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="position" source="esame.riconoscimenti.RemoteDevice" target="org.json.simple.JSONObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="esame.riconoscimenti.RiconoscimentoAudio" target="org.json.simple.JSONObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="upl" source="esame.riconoscimenti.RemoteDevice" target="esame.riconoscimenti.Uploader" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="json" source="esame.riconoscimenti.Uploader" target="org.json.simple.JSONObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="outQueue" source="esame.riconoscimenti.RemoteDevice" target="org.json.simple.JSONObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="LinkedList&lt;JSONObject&gt;"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="org.json.simple.JSONArray" target="org.json.simple.JSONAware"/>
+    <HasRelation name="toSend" source="esame.riconoscimenti.Uploader" target="org.json.simple.JSONObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="LinkedList&lt;JSONObject&gt;"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="org.json.simple.JSONArray" target="org.json.simple.JSONStreamAware"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="org.json.simple.JSONObject" target="org.json.simple.JSONAware"/>
+    <HasRelation name="token" source="org.json.simple.parser.JSONParser" target="org.json.simple.parser.Yytoken" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="esame.riconoscimenti.Uploader" target="org.json.simple.JSONObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="org.json.simple.parser.Yylex" target="org.json.simple.parser.Yytoken" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="org.json.simple.JSONObject" target="org.json.simple.JSONStreamAware"/>
+    <HasRelation name="lexer" source="org.json.simple.parser.JSONParser" target="org.json.simple.parser.Yylex" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
