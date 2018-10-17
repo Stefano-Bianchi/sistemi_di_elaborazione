@@ -3,11 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/elsoft/NetBeansProjects/sistemi_di_elaborazione/Esame/src/esame/riconoscimenti/RiconoscimentoAudio.java</file>
             <file>file:/home/elsoft/NetBeansProjects/sistemi_di_elaborazione/Esame/src/esame/riconoscimenti/RemoteDevice.java</file>
             <file>file:/home/elsoft/NetBeansProjects/sistemi_di_elaborazione/Esame/src/esame/riconoscimenti/Uploader.java</file>
             <file>file:/home/elsoft/NetBeansProjects/sistemi_di_elaborazione/Esame/src/esame/Esame.java</file>
             <file>file:/home/elsoft/NetBeansProjects/sistemi_di_elaborazione/Esame/src/esame/server/Server.java</file>
             <file>file:/home/elsoft/NetBeansProjects/sistemi_di_elaborazione/Esame/src/esame/userclient/Client.java</file>
+            <file>file:/home/elsoft/NetBeansProjects/sistemi_di_elaborazione/Esame/src/esame/strutturedati/Riconoscimento.java</file>
         </group>
     </open-files>
 </project-private>

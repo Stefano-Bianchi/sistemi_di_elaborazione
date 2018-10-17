@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license headeco, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -164,7 +164,6 @@ public class Client extends javax.swing.JFrame {
         try {
             JSONObject json=this.sendGET("command=listAll");
             JSONArray results= (JSONArray) json.get("results");
-            
             
             for (int i=0;i<results.size();i++){
                Riconoscimento ric=new Riconoscimento((JSONObject) results.get(i));

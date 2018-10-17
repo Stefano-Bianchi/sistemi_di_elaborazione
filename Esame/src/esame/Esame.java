@@ -22,9 +22,14 @@ public class Esame { // Questa classe lancia i tre servizi necessari per lo svol
      * @param args the command line arguments
      * @throws java.lang.Exception
      */
+    
+    static Server srv;
+    static RemoteDevice remd;
+    static Client clnt;
+    
     public static void main(String[] args){
-        Server srv=new Server();
-        RemoteDevice remd=new RemoteDevice();
+        Esame.srv=new Server();
+        Esame.remd=new RemoteDevice();
         remd.setId("1");
         remd.setName("Limina 1");
         remd.setPosition(16.188085, 38.391084);
@@ -43,7 +48,7 @@ public class Esame { // Questa classe lancia i tre servizi necessari per lo svol
             Logger.getLogger(Esame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        Client clnt=new Client();
+        Esame.clnt=new Client();
         clnt.setVisible(true);
         
         
