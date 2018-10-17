@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Esame">
+  <ClassDiagramComponents>
+    <Class name="Esame" package="esame" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="untitledField" type="Object" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="RemoteDevice" package="esame.riconoscimenti" visibility="public" xPosition="281.0" yPosition="20.0">
+      <Fields>
+        <Field name="id" type="String" visibility="package"/>
+        <Field name="name" type="String" visibility="package"/>
+        <Field name="position" type="JSONObject" visibility="package"/>
+        <Field name="outQueue" type="LinkedList&lt;JSONObject&gt;" visibility="package" isStatic="true"/>
+        <Field name="upl" type="Uploader" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="String" name="id"/>
+        </Method>
+        <Method name="setName" returnType="void" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="setPosition" returnType="void" visibility="public">
+          <Argument type="double" name="lat"/>
+          <Argument type="double" name="lng"/>
+        </Method>
+        <Method name="getOutQueue" returnType="LinkedList&lt;JSONObject&gt;" visibility="public"/>
+        <Method name="getId" returnType="String" visibility="public"/>
+        <Method name="getName" returnType="String" visibility="public"/>
+        <Method name="getPosition" returnType="JSONObject" visibility="public"/>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+        <Method name="start" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="RiconoscimentoAudio" package="esame.riconoscimenti" visibility="public" xPosition="20.0" yPosition="188.0">
+      <Fields>
+        <Field name="filename" type="String" visibility="package"/>
+        <Field name="hotWords" type="String[]" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="filename"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="decode" returnType="JSONObject" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Uploader" package="esame.riconoscimenti" visibility="public" xPosition="631.0" yPosition="33.0">
+      <Fields>
+        <Field name="url" type="String" visibility="package"/>
+        <Field name="toSend" type="LinkedList&lt;JSONObject&gt;" visibility="package"/>
+        <Field name="json" type="JSONObject" visibility="private"/>
+        <Field name="fileName" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="setUrl" returnType="void" visibility="public">
+          <Argument type="String" name="url"/>
+        </Method>
+        <Method name="setToSend" returnType="void" visibility="public">
+          <Argument type="LinkedList" name="toSend"/>
+        </Method>
+        <Method name="run" returnType="void" visibility="public"/>
+        <Method name="sendPost" returnType="JSONObject" visibility="private"/>
+      </Methods>
+    </Class>
+    <Class name="Server" package="esame.server" visibility="public" xPosition="919.0" yPosition="80.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+        <Method name="start" returnType="void" visibility="public"/>
+        <Method name="connect" returnType="Connection" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="Riconoscimento" package="esame.strutturedati" visibility="public" xPosition="1192.0" yPosition="-5.0">
+      <Fields>
+        <Field name="id" type="long" visibility="package"/>
+        <Field name="warning" type="String" visibility="package"/>
+        <Field name="fileName" type="String" visibility="package"/>
+        <Field name="lat" type="Double" visibility="package"/>
+        <Field name="lng" type="Double" visibility="package"/>
+        <Field name="keywords" type="ArrayList&lt;String&gt;" visibility="package"/>
+        <Field name="time" type="String" visibility="package"/>
+        <Field name="deviceId" type="String" visibility="package"/>
+        <Field name="deviceName" type="String" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="JSONObject" name="json"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="printKeyWords" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Client" package="esame.userclient" visibility="public" xPosition="488.0" yPosition="333.0">
+      <Fields>
+        <Field name="userAgent" type="String" visibility="package"/>
+        <Field name="getUrl" type="String" visibility="package"/>
+        <Field name="audioButton" type="javax.swing.JButton" visibility="private"/>
+        <Field name="jPanel1" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="jScrollPane1" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jScrollPane2" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jTable1" type="javax.swing.JTable" visibility="private"/>
+        <Field name="jTextArea1" type="javax.swing.JTextArea" visibility="private"/>
+        <Field name="lettoButton" type="javax.swing.JButton" visibility="private"/>
+        <Field name="nuoviButton" type="javax.swing.JButton" visibility="private"/>
+        <Field name="tuttiButton" type="javax.swing.JButton" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="initComponents" returnType="// &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents void" visibility="private"/>
+        <Method name="nuoviButtonActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="tuttiButtonActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="sendGET" returnType="JSONObject" visibility="private">
+          <Argument type="String" name="param"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="JSONObject" package="org.json.simple" visibility="public" xPosition="312.0" yPosition="596.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Map" name="map"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="writeJSONString" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Map" name="map"/>
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="writeJSONString" returnType="void" visibility="public">
+          <Argument type="Writer" name="out"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="Map" name="map"/>
+        </Method>
+        <Method name="toJSONString" returnType="String" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public" isStatic="true">
+          <Argument type="String" name="key"/>
+          <Argument type="Object" name="value"/>
+        </Method>
+        <Method name="escape" returnType="String" visibility="public" isStatic="true">
+          <Argument type="String" name="s"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="toSend" source="esame.riconoscimenti.Uploader" target="org.json.simple.JSONObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="LinkedList&lt;JSONObject&gt;"/>
+    <UseRelation source="esame.userclient.Client" target="org.json.simple.JSONObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="json" source="esame.riconoscimenti.Uploader" target="org.json.simple.JSONObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="outQueue" source="esame.riconoscimenti.RemoteDevice" target="org.json.simple.JSONObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="LinkedList&lt;JSONObject&gt;"/>
+    <HasRelation name="position" source="esame.riconoscimenti.RemoteDevice" target="org.json.simple.JSONObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="upl" source="esame.riconoscimenti.RemoteDevice" target="esame.riconoscimenti.Uploader" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="esame.riconoscimenti.RiconoscimentoAudio" target="org.json.simple.JSONObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="esame.riconoscimenti.RemoteDevice" target="org.json.simple.JSONObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="esame.riconoscimenti.Uploader" target="org.json.simple.JSONObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
